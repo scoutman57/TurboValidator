@@ -26,10 +26,10 @@
     window.TurboValidator = {
         // these are the error messages that will display
         messages: {
-            'empty': 'Cannot be empty',
-            'numbers_only': 'Must be a number',
-            'letters_only': 'Must be all letters',
-            'checked': 'Must be checked'
+            'required'     : 'Cannot be empty',
+            'numbers_only' : 'Must be a number',
+            'letters_only' : 'Must be all letters',
+            'checked'      : 'Must be checked'
         },
 
         // this method will bind the enter key to the form and a mouse click to the save button

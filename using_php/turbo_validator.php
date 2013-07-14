@@ -1,52 +1,27 @@
 <?php
 
 /**
-* TurboValidator 1.0 by Tierlabs
-* Created by: Brian Seymour
-* 
-* License: GNU General Public License Version 2.0
-* 
-* Mandatory Dependencies:
-* - jQuery
-* 
-* Recommended Dependencies:
-* - Bootstrap
-* 
-* The purpose of this validator is to allow high speed server side
-* validation with a low maintenance foot print and an intuitive interface.
-* 
-* TurboValidator design goals:
-* - AJAX Enabled
-* - Clean Validation Errors
-* - Minimum Code Absolutely Necessary/Required (MCAN/R)
-*/
+ * TurboValidator 1.0 by Tierlabs
+ * Created by: Brian Seymour
+ * 
+ * License: GNU General Public License Version 2.0
+ * 
+ * Mandatory Dependencies:
+ * - jQuery
+ * 
+ * Recommended Dependencies:
+ * - Bootstrap
+ * 
+ * The purpose of this validator is to allow high speed server side
+ * validation with a low maintenance foot print and an intuitive interface.
+ * 
+ * TurboValidator design goals:
+ * - AJAX Enabled
+ * - Clean Validation Errors
+ * - Minimum Code Absolutely Necessary/Required (MCAN/R)
+ */
 
-class TurboValidator {
-
-    public static $rules = array(
-        /**
-         * Validation Options
-         * empty        => check for empty values
-         * letters_only => check for only letters
-         * numbers_only => check for only numbers
-         */
-        
-        // bind form ids to validation options
-        
-        'name'       => array('empty', 'letters_only'),
-        'age'        => array('empty', 'numbers_only'),
-        'type'       => array('empty'),
-        'comments'   => array('empty'),
-        'must_check' => array('checked'),
-    );
-    
-    /* DO NOT EDIT BELOW THIS LINE ---------------------------------------- */
-    /* DO NOT EDIT BELOW THIS LINE ---------------------------------------- */
-    /* DO NOT EDIT BELOW THIS LINE ---------------------------------------- */
-    /* DO NOT EDIT BELOW THIS LINE ---------------------------------------- */
-    /* DO NOT EDIT BELOW THIS LINE ---------------------------------------- */
-    /* DO NOT EDIT BELOW THIS LINE ---------------------------------------- */
-    /* DO NOT EDIT BELOW THIS LINE ---------------------------------------- */
+class TurboValidator extends RulesBase {
     
     public static $errors = array();
     
@@ -78,9 +53,9 @@ class TurboValidator {
                 foreach ($filters as $f) {
                     switch ($f) {
                         // test for empty fields
-                        case 'empty':
+                        case 'required':
                             if ($v == '') {
-                                @self::$errors[$k] = self::$errors[$k] . 'empty,';
+                                @self::$errors[$k] = self::$errors[$k] . 'required,';
                             }
                             break;
                         
