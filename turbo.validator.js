@@ -20,18 +20,8 @@
 */
 
 (function (window) {
-    // this is the success message that will show next to the save button
-    var success_message = '<i class="icon-ok"></i> Saved!'
 
     window.TurboValidator = {
-        // these are the error messages that will display
-        messages: {
-            'required'     : 'Cannot be empty',
-            'numbers_only' : 'Must be a number',
-            'letters_only' : 'Must be all letters',
-            'checked'      : 'Must be checked'
-        },
-
         // this method will bind the enter key to the form and a mouse click to the save button
         bind: function (button_id, form_id, url) {
             // start listening to key presses
@@ -100,43 +90,65 @@
 
             // send a post of the data to the url specified
             $.post(url, data, function (json) {
-                if (json === 0) {
-                    $('#' + form_id + ' > #' + button_id).after(' <span style=\'color: #00cc00;\' class=\'tv-success\'>' + success_message + '</span>');
+                // check whether a Success element is present
+                if (json.Success) {
+                    // no errors, display success message
+                    $('#' + form_id + ' > #' + button_id).after(' <span style=\'color: #00cc00;\' class=\'tv-success\'>' + json.Success + '</span>');
                 } else {
-                    $.each(json, function (key, value) {
+                    // create a variable of user error messages
+                    var messages = json.Messages;
+                    
+                    // loop through each error
+                    $.each(json.Errors, function (key, value) {
+                        // zero out the actual full error message
                         var final_error_value = '';
-
+                        
+                        // get offsets and heights to know where the error message should go
                         var offset = $('#' + form_id + ' > #' + key).position();
                         var height = $('#' + form_id + ' > #' + key).height();
-
+                        
+                        // slight adjustment
                         offset.top = (offset.top + height) + 5;
-
+                        
+                        // errors show up command separate. unseparate them
                         errors = value.split(",");
-
+                        
+                        // check whether it's a checked value, if so, it gets a different offset
                         if (value === 'checked') {
                             var noninput = true;
                             offset.top = offset.top - 21;
                         }
-
+                        
+                        // loop through each individual error for the field
                         $.each(errors, function (key, value) {
-                            final_error_value += TurboValidator.messages[value] + ', ';
+                            // string the errors together
+                            final_error_value += messages[value] + ', ';
                         });
-
+                        
+                        // set the final error value
                         final_error_value = final_error_value.substring(0, final_error_value.length - 2);
+                        
+                        // check if it's a checked value or not
                         if (!noninput) {
+                            // checked value
                             $('#' + form_id).append('<div class=\'tv-error-overlay\' style=\'border-radius: 2px; padding: 0px 4px; position: absolute; left: ' + offset.left + 'px; top: ' + offset.top + 'px; font-size: 12px; background: #ff0000; color: #ffffff; height: 12px; line-height: 12px; font-weight: bold; overflow: hidden;\'>' + final_error_value + '</div>');
                         } else {
+                            // unchecked value
                             $('#' + form_id).append('<div class=\'tv-error-overlay\' style=\'border-radius: 2px; padding: 0px 4px; position: absolute; right: 0px; top: ' + offset.top + 'px; font-size: 12px; background: #ff0000; color: #ffffff; height: 12px; line-height: 12px; font-weight: bold; overflow: hidden;\'>' + final_error_value + '</div>');
                         }
                     });
-
+                    
+                    // hide all errors
                     $('#' + form_id + ' > .tv-error-overlay').hide();
+                    
+                    // elegantly display the errors slowly
                     $('#' + form_id + ' > .tv-error-overlay').fadeIn('slow');
                 }
-
+                
+                // remove the loading icon if present
                 $('#' + form_id + ' > .tv-load').remove();
             }, 'json');
         }
-
     };
+    
 })(window);

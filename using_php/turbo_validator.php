@@ -23,6 +23,7 @@
 
 class TurboValidator extends RulesBase {
     
+    // temporary error store
     public static $errors = array();
     
     public static function validate($data, $overrides = null) {
@@ -89,9 +90,18 @@ class TurboValidator extends RulesBase {
             }
         }
         
-        // if no errors, send back a 0
+        // if no errors, send back a success, else errors and messages
         if (!self::$errors) {
-            self::$errors = 0;
+            self::$errors = array(
+                'Success' => self::$messages['success_message']
+            );
+        } else {
+            $return_data = array(
+                'Errors'   => self::$errors,
+                'Messages' => self::$messages
+            );
+            
+            self::$errors = $return_data;
         }
         
         return self::$errors;

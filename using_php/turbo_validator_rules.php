@@ -22,7 +22,10 @@
  */
 
 class RulesBase {
-
+    
+    /**
+     * Place all of your rules in this array using the options available
+     */
     public static $rules = array(
         /**
          * Validation Options
@@ -38,6 +41,20 @@ class RulesBase {
         'comments'   => array('required'),                 // sample field, do not use
         'must_check' => array('checked'),                  // sample field, do not use
         // demo samples
+    );
+    
+    /**
+     * Customize the default error messages for each type of error
+     */
+    public static $messages = array(
+        // error messages
+        'required'     => 'Cannot be empty',
+        'letters_only' => 'Must be a number',
+        'numbers_only' => 'Must be all letters',
+        'checked'      => 'Must be checked',
+        
+        // success message
+        'success_message' => '<i class="icon-ok"></i> Saved!'
     );
     
 }
