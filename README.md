@@ -6,8 +6,10 @@ The purpose of this validator is to allow high speed server side validation with
 Mandatory Dependencies:
 - jQuery
 
+
 Recommended Dependencies:
 - Bootstrap
+
 
 TurboValidator design goals:
 - AJAX Enabled
